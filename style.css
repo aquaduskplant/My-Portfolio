@@ -188,6 +188,7 @@ body{
 
 
 
+
 .icons i{
     font-size: 1em;
     color: var(--text);
@@ -446,4 +447,34 @@ body{
 
 .box span{
     color: var(--accent);
+}
+
+
+
+/* smooth scroll + header offset */
+html { scroll-behavior: smooth; }
+
+
+:where(#home, #description, #certificate, #contact) {
+  scroll-margin-top: var(--nav-offset, 100px);
+}
+
+
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+
+#typed-text {
+  color: var(--accent);
+  border-right: 2px solid var(--accent);
+  padding-right: 4px;
+  white-space: nowrap;
+  overflow: hidden;
 }

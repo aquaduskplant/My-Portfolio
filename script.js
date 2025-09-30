@@ -109,3 +109,93 @@
     if (e.key === 'Escape' && nav.classList.contains('open')) closeMenu();
   });
 })();
+
+// ---------- Smooth anchor scroll with exact header offset ----------
+(function () {
+  const header = document.querySelector('.header');
+  const links = document.querySelectorAll('.links a[href^="#"]');
+
+  // keep a CSS var in sync with current header height
+  function setOffsetVar() {
+    if (!header) return;
+    const h = header.getBoundingClientRect().height;
+    document.documentElement.style.setProperty('--nav-offset', (h + 16) + 'px');
+  }
+  setOffsetVar();
+  window.addEventListener('resize', setOffsetVar);
+
+  // intercept clicks for buttery anchor scroll + precise offset
+  links.forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      const h = header ? header.getBoundingClientRect().height : 0;
+      const y = target.getBoundingClientRect().top + window.scrollY - h - 12;
+      window.scrollTo({ top: y, behavior: 'smooth' });
+    });
+  });
+})();
+
+// ---------- Minimal reveal-on-scroll ----------
+(function () {
+  const candidates = [
+    document.querySelector('.right-con'),
+    document.querySelector('.left-con img'),
+    ...document.querySelectorAll('.subcontainer > div'),
+    ...document.querySelectorAll('.certificate-series img'),
+    document.querySelector('.contactme'),
+    document.querySelector('.info')
+  ].filter(Boolean);
+
+  candidates.forEach(el => el.classList.add('reveal'));
+
+  const io = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) entry.target.classList.add('show');
+    }
+  }, { threshold: 0.12 });
+
+  candidates.forEach(el => io.observe(el));
+})();
+
+
+
+// ---------- Typing animation ----------
+(function () {
+  const el = document.getElementById("typed-text");
+  if (!el) return;
+
+  const roles = [
+    "I'm an Affiliate Marketer",
+    "I'm a Project Manager"
+  ];
+  
+  let roleIndex = 0;
+  let charIndex = 0;
+  let typing = true;
+
+  function type() {
+    const current = roles[roleIndex];
+    
+    if (typing) {
+      el.textContent = current.slice(0, ++charIndex);
+      if (charIndex === current.length) {
+        typing = false;
+        setTimeout(type, 1200); 
+        return;
+      }
+    } else {
+      el.textContent = current.slice(0, --charIndex);
+      if (charIndex === 0) {
+        typing = true;
+        roleIndex = (roleIndex + 1) % roles.length;
+      }
+    }
+    setTimeout(type, typing ? 100 : 60); 
+  }
+
+  type();
+})();
+
