@@ -98,6 +98,8 @@
     border-radius: 10px;
     padding: 6px 10px;
   }
+
+  
 }
 
 
@@ -214,6 +216,14 @@ body{
     gap: 50px;
     
 }
+
+@media (max-width: 840px) {
+  .container1 {
+    display: none;
+  }
+}
+
+
 
 .left-con img{
     max-width: 350px;
@@ -478,3 +488,5 @@ html { scroll-behavior: smooth; }
   white-space: nowrap;
   overflow: hidden;
 }
+
+
